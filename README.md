@@ -1,5 +1,6 @@
 # TournamentSimulator
 """
+
 The tournament simulator is designed to generate possible outcomes of seeded tournaments submitted by the user. 
 
 I was inspired to build the tournament simulator after watching the NCAA March Madness tournament in 2023 alongside taking a probability and statistics class at my college. While watching the tournament, it was fascinating for me to try and figure out who was going to beat who only to be shocked after watching the games. There are so many ways that things can pan out and I wanted to build something that would help me visualize that by combining my passions for probability and programming.
