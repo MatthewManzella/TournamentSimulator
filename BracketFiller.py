@@ -113,8 +113,7 @@ def get_file(num_of_teams, lowest_seed):
     print("\n\nNOTE: The winner of each of the two games above will face each other in the next round.")
     # Asks user for file name.
     while file_name is None:
-        file_name = input("\n\nEnter the name of the text file with your teams listed in it (exclude what is after the "
-                          "dot) or enter 'no' to quit: ")
+        file_name = input("\n\nEnter the name of the text file with your teams listed in it or enter 'no' to quit: ")
         # Exits the program should the user type no.
         if file_name == 'no':
             sys.exit(0)
