@@ -16,9 +16,9 @@ def main():
     num_of_teams = get_teams()
     # lowest_seed = the seed of the worst team(s) listed.
     lowest_seed = get_lowest_seed(num_of_teams)
-    # file_name = name of file with teams inside.
-    file_name = get_file(num_of_teams, lowest_seed)
-    file = open(file_name, 'r')
+    # file_path = absolute path to file with teams inside.
+    file_path = get_file(num_of_teams, lowest_seed)
+    file = open(file_path, 'r')
     # Starts dict_teams (see comment below).
     line = file.readline().split(":")
     dict_teams[line[1].strip()] = line[0]
@@ -93,17 +93,17 @@ def get_lowest_seed(num_of_teams):
 
 def get_file(num_of_teams, lowest_seed):
     """
-    Asks user for name of the text file containing the list of bracket teams in it and verifies that
+    Asks user for the absolute path to the file containing the list of bracket teams in it and verifies that
     there are enough teams in the file, that the seeds are within the range given, that there
     are no duplicate teams, and that each line is formatted properly.
 
     :param: num_of_teams: Total number of teams to be put into the bracket.
     :param: lowest_seed: The seed of the worst team(s) listed.
 
-    :return: file_name: Name of the file with teams in it.
+    :return: file_path: Absolute path to the file with teams in it.
     :rtype: str
     """
-    file_name = None
+    file_path = None
     print(
         "\nTIP: Make sure your teams in the file are listed one team to a line (starting from line 1, no empty lines) "
         "and in \norder of when they play the first round so that the bracket is constructed properly.\nList each"
@@ -111,37 +111,41 @@ def get_file(num_of_teams, lowest_seed):
         "\n\nEXAMPLE: \n1: First Team to Play\n16: First Team to Play's Opponent\n8: Second Team to Play\n"
         "9: Second Team to Play's Opponent")
     print("\n\nNOTE: The winner of each of the two games above will face each other in the next round.")
-    # Asks user for file name.
-    while file_name is None:
-        file_name = input("\n\nEnter the name of the text file with your teams listed in it or enter 'no' to quit: ")
+    # Asks user for file path.
+    while file_path is None:
+        print("\nHINT: Find the absolute path by going to your File Explorer, single-clicking\non the file you "
+              "are using, and holding Ctrl + Shift + C at the same time.\nRemove the quotation marks before "
+              "submitting it to the Tournament Simulator.")
+        file_path = input("\n\nEnter the absolute path to the text file (without quotation marks)"
+                          " with your teams listed in it or enter 'no' to quit: ")
         # Exits the program should the user type no.
-        if file_name == 'no':
+        if file_path == 'no':
             sys.exit(0)
-        # Attempts to open the file and repeatedly prompts the user to re-enter a file until one with proper
+        # Attempts to open the file and repeatedly prompts the user to re-enter a file path until one with proper
         # format is given (valid file, correct number of teams, correct format on each line, and proper seeding).
         try:
-            file = open(file_name, 'r')
+            file = open(file_path, 'r')
             length = calc_length(file)
             file.close()
             if length != num_of_teams:
                 print(f"\nERROR. Your file has {length} teams. You previously specified {num_of_teams} teams.")
                 print("Please re-enter a new or modified file.")
-                file_name = None
+                file_path = None
             # Checks for correct format on each line and proper seeding.
-            elif check_format(file_name, num_of_teams, lowest_seed):
-                file_name = None
+            elif check_format(file_path, num_of_teams, lowest_seed):
+                file_path = None
             else:
-                return file_name
-        except OSError:
+                return file_path
+        except OSError or Exception:
             print("ERROR. Enter a valid file name.")
-            file_name = None
+            file_path = None
 
 
 def calc_length(file):
     """
     Calculates the number of non-empty lines in the file being measured.
 
-    :param: file: The file being measured.
+    :param: file: The file path of the file being measured.
 
     :return: length: The number of non-empty lines in the file.
     :rtype: int
@@ -158,13 +162,13 @@ def calc_length(file):
     return length
 
 
-def check_format(file_name, num_of_teams, lowest_seed):
+def check_format(file_path, num_of_teams, lowest_seed):
     """
     Verifies that the seeds are within the range given, that each line is
     formatted properly ([insert seed]: team name), and that there are no
     duplicate teams.
 
-    :param: file_name: The name of the file being checked.
+    :param: file_path: The path to the file being checked.
     :param: num_of_teams: Total number of teams to be put into the bracket.
     :param: lowest_seed: The seed of the worst team(s) listed.
 
@@ -172,7 +176,7 @@ def check_format(file_name, num_of_teams, lowest_seed):
     :rtype: bool
     """
     # Opens the file and creates a list for all seeds to be stored in.
-    file = open(file_name, 'r')
+    file = open(file_path, 'r')
     line = file.readline()
     seed_list = []
     team_list = []
