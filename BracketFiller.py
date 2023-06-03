@@ -116,7 +116,7 @@ def get_file(num_of_teams, lowest_seed):
         print("\nHINT: Find the absolute path by going to your File Explorer, single-clicking\non the file you "
               "are using, and holding Ctrl + Shift + C at the same time.\nRemove the quotation marks before "
               "submitting it to the Tournament Simulator.")
-        file_path = input("\n\nEnter the absolute path to the text file (without quotation marks)"
+        file_path = input("\n\nPaste the absolute path to the text file (without quotation marks)"
                           " with your teams listed in it or enter 'no' to quit: ")
         # Exits the program should the user type no.
         if file_path == 'no':
