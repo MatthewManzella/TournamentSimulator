@@ -137,7 +137,7 @@ def get_file(num_of_teams, lowest_seed):
             else:
                 return file_path
         except OSError or Exception:
-            print("ERROR. Enter a valid file name.")
+            print("ERROR. File or file path is not valid.")
             file_path = None
 
 
