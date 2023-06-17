@@ -263,7 +263,7 @@ def bracket_simulator(dict_teams, option, lowest_seed):
         del (dict_teams[knocked_out])
     # Recursively calls bracket_simulator with the updated dictionary until only one team still stands in the
     # tournament.
-    while len(dict_teams) != 1:
+    if len(dict_teams) != 1:
         bracket_simulator(dict_teams, option, lowest_seed)
 
 
