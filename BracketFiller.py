@@ -32,13 +32,12 @@ def main():
             break
     file.close()
     # Asks user to pick option 1, 2, 3, or 4 for randomization.
-    while True:
+    user_pick = 0
+    while user_pick not in ["1", "2", "3", "4"]:
         print("\nOPTIONS:\n- 1: The better seeded teams are heavily favored\n- 2: The better seeded teams are"
               " moderately favored\n- 3: The better seeded teams are slightly favored\n- 4: Every game is a 50/50 shot")
         user_pick = input("\nPick your level of randomization (1, 2, 3, or 4): ")
-        if user_pick in ["1", "2", "3", "4"]:
-            break
-        else:
+        if user_pick not in ["1", "2", "3", "4"]:
             print("\nERROR. Please type 1, 2, 3, or 4")
     # Sends dict_teams to the options function chosen by the user.
     bracket_simulator(dict_teams, int(user_pick), lowest_seed)
@@ -54,17 +53,19 @@ def get_teams():
     :return: num_of_teams: Total number of teams to be put into the bracket.
     :rtype: int
     """
+    num_of_teams = 0
     total_teams_list = (2, 4, 8, 16, 32, 64, 128, 256)
     # Will ask user to re-enter value until a number from total_teams_list is entered.
-    while True:
+    while num_of_teams not in total_teams_list:
         print("\nOPTIONS: 2, 4, 8, 16, 32, 64, 128, 256")
         num_of_teams = input("How many teams total in the bracket? (Pick a number from above): ")
         if not num_of_teams.isdigit():
             print("\nERROR. Please give a number from the options list.")
-        elif int(num_of_teams) in total_teams_list:
-            return int(num_of_teams)
-        else:
+        elif int(num_of_teams) not in total_teams_list:
             print("\nERROR. Please give a number from the options list.")
+        else:
+            num_of_teams = int(num_of_teams)
+    return num_of_teams
 
 
 def get_lowest_seed(num_of_teams):
@@ -80,6 +81,8 @@ def get_lowest_seed(num_of_teams):
     """
     loop_control = False
     # Will ask user to re-enter value until a number that num_of_teams is divisible by is entered.
+    # An infinite loop must be used here rather than using the pre-condition on line 90 due to
+    # an error in int type conversion for lowest_seed if the user enters a non-numeric value.
     while loop_control is False:
         print(f"\nNUMBER OF TEAMS: {num_of_teams}")
         lowest_seed = input("What is the lowest (worst) seed in your bracket? ")
@@ -116,7 +119,7 @@ def get_file(num_of_teams, lowest_seed):
         print("\nHINT: Find the absolute path by going to your File Explorer, single-clicking\non the file you "
               "are using, and holding Ctrl + Shift + C at the same time.\nRemove the quotation marks before "
               "submitting it to the Tournament Simulator.")
-        file_path = input("\n\nPaste the absolute path to the text file (without quotation marks)"
+        file_path = input("\n\nEnter the absolute path to the text file (without quotation marks)"
                           " with your teams listed in it or enter 'no' to quit: ")
         # Exits the program should the user type no.
         if file_path == 'no':
@@ -137,7 +140,7 @@ def get_file(num_of_teams, lowest_seed):
             else:
                 return file_path
         except OSError or Exception:
-            print("ERROR. File or file path is not valid.")
+            print("ERROR. Enter a valid file name.")
             file_path = None
 
 
@@ -379,6 +382,11 @@ def scale_factor(difference, option, lowest_seed):
         if option in [1, 2]:
             sf -= 5
     return sf
+
+
+if __name__ == '__main__':
+    main()
+
 
 
 if __name__ == '__main__':
