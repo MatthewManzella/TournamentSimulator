@@ -90,7 +90,7 @@ def get_lowest_seed(num_of_teams):
             lowest_seed = 1
         elif num_of_teams % int(lowest_seed) != 0 or int(lowest_seed) == 1:
             print("\nERROR. Please give a number greater than 1 that goes into the number of teams evenly.")
-    return lowest_seed
+    return int(lowest_seed)
 
 
 def get_file(num_of_teams, lowest_seed):
