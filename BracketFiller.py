@@ -79,19 +79,18 @@ def get_lowest_seed(num_of_teams):
     :return: lowest_seed: The seed of the worst team(s) listed.
     :rtype: int
     """
-    loop_control = False
+    lowest_seed = 1
     # Will ask user to re-enter value until a number that num_of_teams is divisible by is entered.
-    # An infinite loop must be used here rather than using the pre-condition on line 90 due to
-    # an error in int type conversion for lowest_seed if the user enters a non-numeric value.
-    while loop_control is False:
+    while num_of_teams % int(lowest_seed) != 0 or int(lowest_seed) == 1:
         print(f"\nNUMBER OF TEAMS: {num_of_teams}")
         lowest_seed = input("What is the lowest (worst) seed in your bracket? ")
         if not lowest_seed.isdigit() or lowest_seed == "0":
             print("\nERROR. Please give a proper number.")
-        elif num_of_teams % int(lowest_seed) == 0 and int(lowest_seed) != 1:
-            return int(lowest_seed)
-        else:
+            # lowest_seed set to 1 so that loop is re-entered/no type conversion errors arise.
+            lowest_seed = 1
+        elif num_of_teams % int(lowest_seed) != 0 or int(lowest_seed) == 1:
             print("\nERROR. Please give a number greater than 1 that goes into the number of teams evenly.")
+    return lowest_seed
 
 
 def get_file(num_of_teams, lowest_seed):
@@ -387,7 +386,3 @@ def scale_factor(difference, option, lowest_seed):
 if __name__ == '__main__':
     main()
 
-
-
-if __name__ == '__main__':
-    main()
