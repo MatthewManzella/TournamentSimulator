@@ -9,6 +9,9 @@ def main():
     the teams. The teams and seeds are then read into dict_teams for storage and correlation in the format
     team_name: seed. The user is then asked to pick option 1, 2, 3, or 4 for randomization and then bracket_simulator
     is called to play the tournament.
+
+    CALLS: get_teams, get_lowest_seed, get_file, bracket_simulator
+    CALLED BY: none
     """
     print("\nWELCOME TO THE TOURNAMENT SIMULATOR!\n")
     dict_teams = OrderedDict()
@@ -50,6 +53,9 @@ def get_teams():
     Asks user for number of teams to be put into bracket and verifies that the number
     is valid (number must be in total_teams_list) via input validation.
 
+    CALLS: none
+    CALLED BY: main
+
     :return: num_of_teams: Total number of teams to be put into the bracket.
     :rtype: int
     """
@@ -73,6 +79,9 @@ def get_lowest_seed(num_of_teams):
     Asks user for the lowest seed in the bracket so that teams can be ordered properly.
     Ex: A bracket of 64 in March Madness format has a "lowest seed" of 16 - the four lowest ranked
     teams are seeded 16.
+
+    CALLS: none
+    CALLED BY: main
 
     :param: num_of_teams: Total number of teams to be put into the bracket.
 
@@ -98,6 +107,9 @@ def get_file(num_of_teams, lowest_seed):
     Asks user for the absolute path to the file containing the list of bracket teams in it and verifies that
     there are enough teams in the file, that the seeds are within the range given, that there
     are no duplicate teams, and that each line is formatted properly.
+
+    CALLS: calc_length, check_format
+    CALLED BY: main
 
     :param: num_of_teams: Total number of teams to be put into the bracket.
     :param: lowest_seed: The seed of the worst team(s) listed.
@@ -147,6 +159,9 @@ def calc_length(file):
     """
     Calculates the number of non-empty lines in the file being measured.
 
+    CALLS: none
+    CALLED BY: get_file
+
     :param: file: The file path of the file being measured.
 
     :return: length: The number of non-empty lines in the file.
@@ -169,6 +184,9 @@ def check_format(file_path, num_of_teams, lowest_seed):
     Verifies that the seeds are within the range given, that each line is
     formatted properly ([insert seed]: team name), and that there are no
     duplicate teams.
+
+    CALLS: none
+    CALLED BY: get_file
 
     :param: file_path: The path to the file being checked.
     :param: num_of_teams: Total number of teams to be put into the bracket.
@@ -227,6 +245,9 @@ def bracket_simulator(dict_teams, option, lowest_seed):
     Simulates the bracket by putting teams from team_list against each other in select matchups and
     subsequently deleting the loser. This is done until one team remains.
 
+    CALLS: game_simulator, bracket_shell_printer, game_simulator (recursive)
+    CALLED BY: main
+
     :param: dict_teams: Dictionary in the format {team_name : seed #}.
     :param: option: The option (1, 2, 3, or 4) picked by the user.
     :param: lowest_seed: The seed of the worst team(s) in the bracket.
@@ -274,6 +295,9 @@ def bracket_shell_printer(winner, seed):
     Prints the rectangular bracket shell for each individual game with the winner and their seed printed
     on a line to the right of the shell.
 
+    CALLS: none
+    CALLED BY: bracket_simulator
+
     :param: winner: The winner of the individual game.
     :param: seed: The seed of the winner of the individual game.
     """
@@ -284,7 +308,10 @@ def bracket_shell_printer(winner, seed):
 def game_simulator(team1, team2, option, team1_seed, team2_seed, lowest_seed):
     """
     Simulates each individual game in the tournament using weighted seeding differences and a generated scale
-    factor
+    factor.
+
+    CALLS: scale_factor
+    CALLED BY: bracket_simulator
 
     :param: team1/team2: The names of the two teams playing.
     :param: option: The option the user picked in the previous menu.
@@ -333,6 +360,9 @@ def scale_factor(difference, option, lowest_seed):
     Determines a scale factor used for deciding which team will win the game being simulated. If the randomly
     generated number (1-100) in game_simulator is below sf, the favorite (better seed) will win but if it is above sf,
     the underdog (lower seed) will win.
+
+    CALLS: none
+    CALLED BY: game_simulator
 
     :param: difference: The percent difference in seeds of the two teams playing.
             - Equation = (worse seed - better seed) / lowest seed
@@ -385,4 +415,3 @@ def scale_factor(difference, option, lowest_seed):
 
 if __name__ == '__main__':
     main()
-
