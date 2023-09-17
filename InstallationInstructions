@@ -6,7 +6,7 @@ If you don't have Python installed on your computer, do these 2 steps first:
    - Choose the version that is appropriate for your operating system (Windows, macOS, or Linux).
    - Run the installer and make sure to check the box that says "Add Python to PATH" before proceeding. 
 
-2. **Verify Python installation:**
+2. Verify Python installation:
    - Open a command prompt (Windows) or terminal (macOS/Linux).
    - Type `python --version` and press Enter. You should see the version number of Python, indicating that it was installed successfully.
 
