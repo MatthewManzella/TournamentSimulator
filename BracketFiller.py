@@ -22,17 +22,15 @@ def main():
     # file_path = absolute path to file with teams inside.
     file_path = get_file(num_of_teams, lowest_seed)
     file = open(file_path, 'r')
-    # Starts dict_teams (see comment below).
-    line = file.readline().split(":")
-    dict_teams[line[1].strip()] = line[0]
+    # Reads the first line so that the while loop is entered.
+    line = file.readline()
     # Adds key(team name)/value(seed) pairs to dict_teams by manipulating each individual line in the file using
-    # .split(":") to separate the team name and seed as well as .strip('\n') to get rid of newline characters.
+    # .split(":") to separate the team name and seed into a list (index 1 = team name, index 0 = seed) as well as
+    # .strip() to get rid of newline characters.
     while len(line) != 0:
-        try:
-            line = file.readline().split(":")
-            dict_teams[line[1].strip()] = line[0]
-        except IndexError:
-            break
+        line_list = line.split(":")
+        dict_teams[line_list[1].strip()] = line_list[0]
+        line = file.readline().strip()
     file.close()
     # Asks user to pick option 1, 2, 3, or 4 for randomization.
     user_pick = 0
@@ -148,11 +146,10 @@ def get_file(num_of_teams, lowest_seed):
             # Checks for correct format on each line and proper seeding.
             elif check_format(file_path, num_of_teams, lowest_seed):
                 file_path = None
-            else:
-                return file_path
         except OSError or Exception:
             print("ERROR. Enter a valid file name.")
             file_path = None
+    return file_path
 
 
 def calc_length(file):
